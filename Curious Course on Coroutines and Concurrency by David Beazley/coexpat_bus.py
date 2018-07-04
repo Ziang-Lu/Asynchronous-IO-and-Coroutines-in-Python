@@ -7,10 +7,12 @@ Expat, which is in lower-level than SAX.
 """
 
 import xml.parsers.expat
-from cosax_bus import buses_to_dicts, filter_on_field, bus_info_printer
+from typing import Coroutine
+
+from cosax_bus import bus_info_printer, buses_to_dicts, filter_on_field
 
 
-def expat_parse(filename, target):
+def expat_parse(filename: str, target: Coroutine):
     with open(filename, 'rb') as f:
         parser = xml.parsers.expat.ParserCreate()
         parser.buffer_text = True

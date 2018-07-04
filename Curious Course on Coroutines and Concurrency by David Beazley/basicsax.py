@@ -6,16 +6,18 @@ A very simple example illustrating the SAX XML parsing interface.
 """
 
 import xml.sax
+from typing import Any
 
 
 class MyHanlder(xml.sax.ContentHandler):
-    def startElement(self, name, attrs):
+
+    def startElement(self, name: str, attrs: dict):
         print('startElement', name)
 
-    def characters(self, content):
+    def characters(self, content: Any):
         print('characters', repr(content)[:40])
 
-    def endElement(self, name):
+    def endElement(self, name: str):
         print('endElement', name)
 
 

@@ -7,10 +7,11 @@ stream to multiple coroutines.
 """
 
 import sys
+
 from coroutine import coroutine
 
 
-def source_read(filename, target):
+def source_read(filename: str, target: coroutine):
     """
     Reads the given file line by line, and feeds each read line to the given
     target coroutine.

@@ -15,14 +15,16 @@ __author__ = 'Ziang Lu'
 import asyncio
 import random
 
+from typing import Coroutine
 
-async def hello():
+
+async def hello() -> Coroutine:
     print('Hello, world!')
     await asyncio.sleep(delay=1)
     print('Hello again!')
 
 
-def hello_demo():
+def hello_demo() -> None:
     loop = asyncio.get_event_loop()
     loop.run_until_complete(future=hello())
 
@@ -32,14 +34,14 @@ def hello_demo():
     # Hello again!
 
 
-async def mygen(L):
+async def mygen(L: list) -> Coroutine:
     while len(L) > 0:
         i = random.randint(0, len(L) - 1)
         print(L.pop(i))
         await asyncio.sleep(delay=1)
 
 
-def print_list_demo():
+def print_list_demo() -> None:
     loop = asyncio.get_event_loop()
     tasks = [mygen(['ss', 'dd', 'gg']), mygen([1, 2, 5, 6])]
     loop.run_until_complete(future=asyncio.wait(tasks))

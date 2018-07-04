@@ -7,12 +7,14 @@ Simple demo for the usage of "yield from".
 
 __author__ = 'Ziang Lu'
 
+from typing import Coroutine, Generator
 
-def fib(limit):
+
+def fib(limit: int) -> Generator:
     """
     Fibonacci sequence generator.
     :param limit: int
-    :return: generator object (iterable)
+    :return: Generator object
     """
     count = 0
     a, b = 0, 1
@@ -22,12 +24,12 @@ def fib(limit):
         count += 1
 
 
-def fib_wrapper(func_iterable):
+def fib_wrapper(func_iterable: Generator) -> Generator:
     """
     Wrapper function for the given generator object (iterable) by yielding by
     iterating the given generator object.
-    :param func_iterable: generator object (iterable)
-    :return: generator object (iterable)
+    :param func_iterable: Generator object
+    :return: Generator object
     """
     print('start')
     for item in func_iterable:
@@ -35,19 +37,19 @@ def fib_wrapper(func_iterable):
     print('end')
 
 
-def fib_wrapper_2(func_iterable):
+def fib_wrapper_2(func_iterable: Generator) -> Generator:
     """
     Wrapper function for the given generator object (iterable) by simply
     "yield from" the given generator object.
-    :param func_iterable: generator object (iterable)
-    :return: generator object (iterable)
+    :param func_iterable: Generator object
+    :return: Generator object
     """
     print('start')
     yield from func_iterable
     print('end')
 
 
-def fib_demo():
+def fib_demo() -> None:
     for i in fib(5):
         print(i)
 
@@ -89,10 +91,10 @@ class SpamException(Exception):
     pass
 
 
-def writer():
+def writer() -> Generator:
     """
     A generator that echoes and prints the input.
-    :return: generator object (iterable)
+    :return: Generator object
     """
     while True:
         try:
@@ -105,7 +107,7 @@ def writer():
             print('>> %s' % w)
 
 
-def writer_wrapper(coro):
+def writer_wrapper(coro: Coroutine) -> Coroutine:
     """
     Wrapper function for the given coroutine.
     :param coro: coroutine
@@ -126,7 +128,7 @@ def writer_wrapper(coro):
             pass
 
 
-def writer_wrapper_2(coro):
+def writer_wrapper_2(coro: Coroutine) -> Coroutine:
     """
     Wrapper function for the given coroutine by simply "yield from" the given
     coroutine.

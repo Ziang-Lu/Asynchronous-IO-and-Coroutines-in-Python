@@ -6,18 +6,22 @@ A module that defines a decorator that takes care of automatically priming a
 coroutine on call.
 """
 
+from typing import Callable, Coroutine
 
-def coroutine(func):
+
+def coroutine(func: Callable) -> Coroutine:
     """
     Decorator that takes care of automatically priming the given coroutine on
     call.
     :param func: coroutine
     :return: coroutine
     """
+
     def auto_start_func(*args, **kwargs):
         coro = func(*args, **kwargs)
         coro.send(None)  # Automatically prime the coroutine
         return coro
+
     return auto_start_func
 
 

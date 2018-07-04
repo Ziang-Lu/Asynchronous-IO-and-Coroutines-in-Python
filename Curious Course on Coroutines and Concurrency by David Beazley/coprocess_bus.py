@@ -3,10 +3,12 @@
 
 import pickle
 import sys
-from cosax_bus import filter_on_field, bus_info_printer
+from typing import Coroutine
+
+from cosax_bus import bus_info_printer, filter_on_field
 
 
-def receive_from(f, target):
+def receive_from(f, target: Coroutine) -> None:
     """
     Unpickles items from the given file (pipe) and feeds them to the given
     coroutine.

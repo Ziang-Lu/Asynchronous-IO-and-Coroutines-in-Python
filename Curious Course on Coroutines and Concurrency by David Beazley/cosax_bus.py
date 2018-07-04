@@ -11,7 +11,7 @@ from cosax import EventHandler
 
 
 @coroutine
-def buses_to_dicts(target):
+def buses_to_dicts(target: coroutine):
     """
     A coroutine that receives collects bus information as a dictionary and feeds
     it to the given target coroutine.

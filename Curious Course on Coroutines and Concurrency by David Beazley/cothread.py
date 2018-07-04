@@ -8,20 +8,22 @@ The calling thread and the new thread communicates via a message queue.
 
 import threading
 import xml.sax
+from queue import Queue
+
 from coroutine import coroutine
 from cosax import EventHandler
-from cosax_bus import buses_to_dicts, filter_on_field, bus_info_printer
-from queue import Queue
+from cosax_bus import bus_info_printer, buses_to_dicts, filter_on_field
 
 
 @coroutine
-def threaded(target):
+def threaded(target: coroutine):
     """
     A coroutine that fires a new thread to do the work.
     The calling thread and the new thread communicates via a message queue.
     :param target: coroutine
     :return: coroutine
     """
+
     def func():
         # Receive items in the new thread, and feeds them into the given
         # coroutine
@@ -31,6 +33,7 @@ def threaded(target):
                 target.close()
                 return
             target.send(item)
+
     # The calling thread and the new thread communicates by a message queue.
     queue = Queue()
     th = threading.Thread(target=func)

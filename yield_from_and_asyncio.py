@@ -21,7 +21,7 @@ def hello():
     print('Hello again! (%s)' % threading.current_thread())
 
 
-def hello_demo():
+def hello_demo() -> None:
     # asyncio的编程模型就是一个事件循环
     # 一方面, 它类似于CPU, 顺序执行协程的代码; 另一方面, 它相当于操作系统, 完成协程的调度
 
@@ -60,7 +60,7 @@ def wget(host):
     writer.close()
 
 
-def wget_demo():
+def wget_demo() -> None:
     loop = asyncio.get_event_loop()
     tasks = [wget(host)
              for host in ['www.sina.com.cn', 'www.sohu.com', 'www.163.com']]
