@@ -79,14 +79,16 @@ def printer():
 
 def main(filename):
     p = printer()
-    source_read(filename=filename,
-                target=broadcast(
-                    targets=[
-                        grep(pattern='python', target=p),
-                        grep(pattern='swig', target=p),
-                        grep(pattern='ply', target=p)
-                    ]
-                ))
+    source_read(
+        filename=filename,
+        target=broadcast(
+            targets=[
+                grep(pattern='python', target=p),
+                grep(pattern='swig', target=p),
+                grep(pattern='ply', target=p)
+            ]
+        )
+    )
 
 
 if __name__ == '__main__':

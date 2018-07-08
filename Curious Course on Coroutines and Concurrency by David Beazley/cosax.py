@@ -10,6 +10,7 @@ from coroutine import coroutine
 
 
 class EventHandler(xml.sax.ContentHandler):
+
     def __init__(self, target):
         self._target = target
 
@@ -35,7 +36,8 @@ def printer():
 
 
 def main():
-    xml.sax.parse(source='allroutes.xml', handler=MyHandler(target=printer()))
+    xml.sax.parse(source='allroutes.xml',
+                  handler=EventHandler(target=printer()))
 
 
 if __name__ == '__main__':

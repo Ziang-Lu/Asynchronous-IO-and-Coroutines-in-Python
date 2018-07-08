@@ -32,10 +32,10 @@ def send_to(f):
 
 def main():
     p = subprocess.Popen(['python3', 'coprocess_bus.py'], stdin=subprocess.PIPE)
-    xml.sax.parse(source='allroutes.xml',
-                  handler=EventHandler(
-                      target=buses_to_dicts(target=send_to(f=p.stdin))
-                  ))
+    xml.sax.parse(
+        source='allroutes.xml',
+        handler=EventHandler(target=buses_to_dicts(target=send_to(f=p.stdin)))
+    )
 
 
 if __name__ == '__main__':

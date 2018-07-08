@@ -13,12 +13,20 @@ import threading
 
 @asyncio.coroutine  # 把hello()变成一个协程
 def hello():
-    print('Hello, world! (%s)' % threading.current_thread())
+    print(
+        'Hello, world! ({th_name})'.format(
+            th_name=threading.current_thread().name
+        )
+    )
     yield from asyncio.sleep(delay=1)  # asyncio.sleep()也是一个coroutine object
     # 所以线程不会等待asyncio.sleep(), 而是直接挂起并执行下一个消息循环
     # 即可以把asyncio.sleep(1)看成一个耗时1秒的IO操作, 在此期间, 主线程并未等待, 而是去执行EventLoop中其他可以执行的
     # coroutine了, 从而实现并发
-    print('Hello again! (%s)' % threading.current_thread())
+    print(
+        'Hello again! ({th_name})'.format(
+            th_name=threading.current_thread().name
+        )
+    )
 
 
 def hello_demo() -> None:
@@ -46,7 +54,7 @@ def hello_demo() -> None:
 
 @asyncio.coroutine
 def wget(host):
-    print('wget %s...' % host)
+    print('wget {}...'.format(host))
     reader, writer = yield from asyncio.open_connection(host=host, port=80)
     header = 'GET / HTTP/1.0\r\nHost: %s\r\n\r\n' % host
     writer.write(header.encode('utf-8'))
@@ -62,8 +70,10 @@ def wget(host):
 
 def wget_demo() -> None:
     loop = asyncio.get_event_loop()
-    tasks = [wget(host)
-             for host in ['www.sina.com.cn', 'www.sohu.com', 'www.163.com']]
+    tasks = [
+        wget(host)
+        for host in ['www.sina.com.cn', 'www.sohu.com', 'www.163.com']
+    ]
     loop.run_until_complete(asyncio.wait(tasks))
     loop.close()
 

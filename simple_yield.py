@@ -17,7 +17,7 @@ def consumer():
                      # 4 -> 2
         if not n:
             return
-        print('[CONSUMER] Consuming %s...' % n)
+        print('[CONSUMER] Consuming {}...'.format(n))
         r = '200 OK'
 
 
@@ -25,11 +25,11 @@ def produce(c):
     c.send(None)  # 1. 启动协程
     n = 1
     while n <= 5:
-        print('[PRODUCER] Producing %d...' % n)
+        print('[PRODUCER] Producing {}...'.format(n))
         r = c.send(n)  # 2. 通过send(n)将参数n传给协程, 并挂起当前执行, 等待协程执行结果
                        # 3. 接收协程传回的结果r
                        # 4 -> 2
-        print('[PRODUCER] Consumer return: %s' % r)
+        print('[PRODUCER] Consumer return: {}'.format(r))
         n += 1
     c.close()
 
