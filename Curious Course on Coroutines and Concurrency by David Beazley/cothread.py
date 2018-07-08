@@ -56,7 +56,8 @@ def main():
     xml.sax.parse(source='allroutes.xml',
                   handler=EventHandler(
                       target=threaded(
-                          target=buses_to_dicts(target=route_filter))))
+                          target=buses_to_dicts(target=route_filter))
+                  ))
 
 
 if __name__ == '__main__':
