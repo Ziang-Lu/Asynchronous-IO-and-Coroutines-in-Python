@@ -35,7 +35,7 @@ def hello_demo() -> None:
 
 
 async def mygen(L: list) -> Coroutine:
-    while len(L) > 0:
+    while len(L):
         i = random.randint(0, len(L) - 1)
         print(L.pop(i))
         await asyncio.sleep(delay=1)
