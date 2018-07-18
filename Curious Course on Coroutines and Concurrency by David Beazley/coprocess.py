@@ -9,6 +9,7 @@ The calling process and the new subprocess communicates via a pipe.
 import pickle
 import subprocess
 import xml.sax
+
 from coroutine import coroutine
 from cosax import EventHandler
 from cosax_bus import buses_to_dicts
@@ -30,7 +31,7 @@ def send_to(f):
         f.close()
 
 
-def main():
+def main():?!?jedi=0, ?!?             (*_*args*_*, bufsize=-1, executable=None, stdin=None, stdout=None, stderr=None, preexec_fn=None, close_fds=_PLATFORM_DEFAULT_CLOSE_FDS, shell=False, cwd=None, env=None, universal_newlines=False, startupinfo=None, creationflags=0, restore_signals=True, start_new_session=False, pass_fds=(), encoding=None, errors=None) ?!?jedi?!?
     p = subprocess.Popen(['python3', 'coprocess_bus.py'], stdin=subprocess.PIPE)
     xml.sax.parse(
         source='allroutes.xml',

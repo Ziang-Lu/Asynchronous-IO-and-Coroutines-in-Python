@@ -9,6 +9,7 @@ The calling thread and the new thread communicates via a message queue.
 import threading
 import xml.sax
 from queue import Queue
+from typing import Coroutine
 
 from coroutine import coroutine
 from cosax import EventHandler
@@ -16,7 +17,7 @@ from cosax_bus import bus_info_printer, buses_to_dicts, filter_on_field
 
 
 @coroutine
-def threaded(target: coroutine):
+def threaded(target: Coroutine):
     """
     A coroutine that fires a new thread to do the work.
     The calling thread and the new thread communicates via a message queue.
@@ -53,11 +54,12 @@ def main():
                                        target=bus_info_printer())
     route_filter = filter_on_field(field='route', val='22',
                                    target=direction_filter)
-    xml.sax.parse(source='allroutes.xml',
-                  handler=EventHandler(
-                      target=threaded(
-                          target=buses_to_dicts(target=route_filter))
-                  ))
+    xml.sax.parse(
+        source='allroutes.xml',
+        handler=EventHandler(
+            target=threaded(target=buses_to_dicts(target=route_filter))
+        )
+    )
 
 
 if __name__ == '__main__':

@@ -7,11 +7,12 @@ stream to multiple coroutines.
 """
 
 import sys
+from typing import Coroutine, List
 
 from coroutine import coroutine
 
 
-def source_read(filename: str, target: coroutine):
+def source_read(filename: str, target: Coroutine) -> None:
     """
     Reads the given file line by line, and feeds each read line to the given
     target coroutine.
@@ -29,7 +30,7 @@ def source_read(filename: str, target: coroutine):
 
 
 @coroutine
-def broadcast(targets):
+def broadcast(targets: List[Coroutine]):
     """
     A coroutine that broadcasts the read lines to the given targets.
     :param targets: list[coroutine]
@@ -46,7 +47,7 @@ def broadcast(targets):
 
 
 @coroutine
-def grep(pattern, target):
+def grep(pattern: str, target: Coroutine):
     """
     A coroutine that searches for the given pattern, and feeds the filtered line
     to the given target coroutine.

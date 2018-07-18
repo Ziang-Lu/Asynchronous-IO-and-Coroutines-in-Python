@@ -6,6 +6,7 @@ An example showing how to dispatch SAX events into a coroutine object.
 """
 
 import xml.sax
+
 from coroutine import coroutine
 
 

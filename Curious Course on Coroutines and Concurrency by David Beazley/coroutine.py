@@ -26,7 +26,7 @@ def coroutine(func: Callable) -> Coroutine:
 
 
 @coroutine
-def grep(pattern):
+def grep(pattern: str):
     """
     A coroutine that searches for the given pattern (like Unix command "grep").
     Note that this coroutine also catches the close() operation

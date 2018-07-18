@@ -6,11 +6,12 @@ A simple demo of processing pipelines using coroutine.
 """
 
 import sys
+from typing import Coroutine
 
 from coroutine import coroutine
 
 
-def source_read(filename: str, target: coroutine):
+def source_read(filename: str, target: Coroutine) -> None:
     """
     Reads the given file line by line, and feeds each read line to the given
     target coroutine.
@@ -28,7 +29,7 @@ def source_read(filename: str, target: coroutine):
 
 
 @coroutine
-def grep(pattern, target):
+def grep(pattern: str, target: Coroutine):
     """
     A coroutine that searches for the given pattern, and feeds the filtered line
     to the given target coroutine.

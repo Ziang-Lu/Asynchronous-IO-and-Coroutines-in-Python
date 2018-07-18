@@ -6,15 +6,17 @@ An example showing how to dispatch SAX events into a pipeline of coroutines.
 """
 
 import xml.sax
+from typing import Coroutine
+
 from coroutine import coroutine
 from cosax import EventHandler
 
 
 @coroutine
-def buses_to_dicts(target: coroutine):
+def buses_to_dicts(target: Coroutine):
     """
-    A coroutine that receives collects bus information as a dictionary and feeds
-    it to the given target coroutine.
+    A coroutine that collects bus information as a dictionary and feeds it to
+    the given target coroutine.
     :param target: coroutine
     :return: coroutine
     """
@@ -40,7 +42,7 @@ def buses_to_dicts(target: coroutine):
 
 
 @coroutine
-def filter_on_field(field, val, target):
+def filter_on_field(field: str, val: str, target: Coroutine):
     """
     A coroutine that filters the given field-value pair in the received
     dictionary, and feeds the filtered dictionary to the given target coroutine.

@@ -12,7 +12,7 @@ from typing import Coroutine
 from cosax_bus import bus_info_printer, buses_to_dicts, filter_on_field
 
 
-def expat_parse(filename: str, target: Coroutine):
+def expat_parse(filename: str, target: Coroutine) -> None:
     with open(filename, 'rb') as f:
         parser = xml.parsers.expat.ParserCreate()
         parser.buffer_text = True
