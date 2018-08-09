@@ -18,6 +18,10 @@ from typing import Coroutine
 
 
 async def hello() -> Coroutine:
+    """
+    Dummy coroutine.
+    :return: coroutine
+    """
     print('Hello, world!')
     await asyncio.sleep(delay=1)
     print('Hello again!')
@@ -33,10 +37,15 @@ def hello_demo() -> None:
     # Hello again!
 
 
-async def mygen(L: list) -> Coroutine:
-    while len(L):
-        i = random.randint(0, len(L) - 1)
-        print(L.pop(i))
+async def mygen(a: list) -> Coroutine:
+    """
+    Coroutine to randomly remove elements from the given list.
+    :param a: list
+    :return: coroutine
+    """
+    while len(a):
+        i = random.randint(0, len(a) - 1)
+        print(a.pop(i))
         await asyncio.sleep(delay=1)
 
 
