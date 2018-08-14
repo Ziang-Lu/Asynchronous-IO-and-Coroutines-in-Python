@@ -33,7 +33,7 @@ def grep(pattern: str):
     :param pattern: str
     :return: coroutine
     """
-    print('Looking for {}'.format(pattern))
+    print(f'Looking for {pattern}')
     try:
         while True:
             line = yield

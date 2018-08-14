@@ -13,20 +13,13 @@ import threading
 
 @asyncio.coroutine  # 把hello()变成一个协程
 def hello():
-    print(
-        'Hello, world! ({th_name})'.format(
-            th_name=threading.current_thread().name
-        )
-    )
+    th_name = threading.current_thread().name
+    print(f'Hello, world! ({th_name})')
     yield from asyncio.sleep(delay=1)  # asyncio.sleep()也是一个coroutine object
     # 所以线程不会等待asyncio.sleep(), 而是直接挂起并执行下一个消息循环
     # 即可以把asyncio.sleep(1)看成一个耗时1秒的IO操作, 在此期间, 主线程并未等待, 而是去执行EventLoop中其他可以执行的
     # coroutine了, 从而实现并发
-    print(
-        'Hello again! ({th_name})'.format(
-            th_name=threading.current_thread().name
-        )
-    )
+    print(f'Hello again! ({th_name})')
 
 
 def hello_demo() -> None:
@@ -54,7 +47,7 @@ def hello_demo() -> None:
 
 @asyncio.coroutine
 def wget(host):
-    print('wget {}...'.format(host))
+    print(f'wget {host}...')
     reader, writer = yield from asyncio.open_connection(host=host, port=80)
     header = 'GET / HTTP/1.0\r\nHost: %s\r\n\r\n' % host
     writer.write(header.encode('utf-8'))
@@ -64,7 +57,7 @@ def wget(host):
         # Only read the header by checking against the first blank line
         if line == b'\r\n':
             break
-        print('%s header > %s' % (host, line.decode('utf-8').rstrip()))
+        print(f"{host} header > {line.decode('utf-8').rstrip()}")
     writer.close()
 
 

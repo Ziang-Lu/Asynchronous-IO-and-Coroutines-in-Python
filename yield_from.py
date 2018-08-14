@@ -104,7 +104,7 @@ def writer() -> Generator:
             print('***')
         else:
             # 否则打印数据
-            print('>> %s' % w)
+            print(f'>> {w}')
 
 
 def writer_wrapper(coro: Coroutine) -> Coroutine:

@@ -66,8 +66,8 @@ def bus_info_printer():
     while True:
         bus = yield
         print(
-            '%(route)s, %(id)s, "%(direction)s", %(latitude)s, %(longitude)s'
-            % bus
+            f'{bus[route]}, {bus[id]}, {bus[direction]}, {bus[latitude]}, '
+            f'{bus[longitude]}'
         )
 
 

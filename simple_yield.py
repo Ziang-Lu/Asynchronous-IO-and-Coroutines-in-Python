@@ -23,7 +23,7 @@ def consumer() -> Coroutine:
         # 4 -> 2
         if not n:
             return
-        print('[CONSUMER] Consuming {}...'.format(n))
+        print(f'[CONSUMER] Consuming {n}...')
         r = '200 OK'
 
 
@@ -36,11 +36,11 @@ def produce(c: Coroutine) -> None:
     c.send(None)  # 1. 启动协程
     n = 1
     while n <= 5:
-        print('[PRODUCER] Producing {}...'.format(n))
+        print(f'[PRODUCER] Producing {n}...')
         r = c.send(n)  # 2. 通过send(n)将参数n传给协程, 并挂起当前执行, 等待协程执行结果
         # 3. 接收协程传回的结果r
         # 4 -> 2
-        print('[PRODUCER] Consumer return: {}'.format(r))
+        print(f'[PRODUCER] Consumer return: {r}')
         n += 1
     c.close()
 

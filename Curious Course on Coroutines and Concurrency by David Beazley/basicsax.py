@@ -11,13 +11,13 @@ import xml.sax
 class MyHanlder(xml.sax.ContentHandler):
 
     def startElement(self, name, attrs):
-        print('startElement', name)
+        print(f'startElement {name}')
 
     def characters(self, content):
-        print('characters', repr(content)[:40])
+        print(f'characters {repr(content)[:40]}')
 
     def endElement(self, name):
-        print('endElement', name)
+        print(f'endElement {name}')
 
 
 if __name__ == '__main__':
