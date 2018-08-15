@@ -199,4 +199,4 @@ You can package coroutines inside threads or subprocesses by adding extra layers
 
 # License
 
-This repo is distributed under the MIT license.
+This repo is distributed under the <a href="https://github.com/Ziang-Lu/Asynchronous-IO-and-Coroutines-in-Python/blob/master/LICENSE">MIT license</a>.
