@@ -1,3 +1,5 @@
+This repo talks about asynchronous IO and its solution in Python, which is called coroutines. 
+
 # Asynchronous IO
 
 由于CPU的速度远远快于磁盘、网络等IO, 在一个thread中, CPU执行代码的速度极快, 然而一旦遇到IO操作, 如读写文件、发送网络数据时, 就需要等待IO操作才能完成, 才能继续进行下一步操作
@@ -192,3 +194,9 @@ You can package coroutines inside threads or subprocesses by adding extra layers
 
 * **The coroutine is the implementation.**
 * **The environment is whatever you choose (threads, subprocesses, network, etc.).**
+
+<br>
+
+# License
+
+This repo is distributed under the MIT license.
