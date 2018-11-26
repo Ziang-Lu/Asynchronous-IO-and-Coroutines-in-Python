@@ -88,10 +88,5 @@ def wget_demo() -> None:
     # www.sohu.com header > FSS-Proxy: Powered by 9863722.11239988.17665343
 
 
-def main():
-    hello_demo()
-    wget_demo()
-
-
-if __name__ == '__main__':
-    main()
+hello_demo()
+wget_demo()
