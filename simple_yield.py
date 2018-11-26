@@ -45,14 +45,8 @@ def produce(c: Coroutine) -> None:
     c.close()
 
 
-def main():
-    c = consumer()
-    produce(c)
-
-
-if __name__ == '__main__':
-    main()
-
+c = consumer()
+produce(c)
 
 # Output:
 # [PRODUCER] Producing 1...
