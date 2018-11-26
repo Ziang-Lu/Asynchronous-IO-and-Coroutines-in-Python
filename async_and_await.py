@@ -31,10 +31,13 @@ def hello_demo() -> None:
     loop = asyncio.get_event_loop()
     loop.run_until_complete(future=hello())
 
-    # Output:
-    # Hello, world!
-    # (Will be pending here for around 1 second)
-    # Hello again!
+
+hello_demo()
+
+# Output:
+# Hello, world!
+# (Will be pending here for around 1 second)
+# Hello again!
 
 
 async def mygen(a: list) -> Coroutine:
@@ -55,20 +58,14 @@ def print_list_demo() -> None:
     loop.run_until_complete(future=asyncio.wait(tasks))
     loop.close()
 
-    # Output:
-    # dd
-    # 6
-    # ss
-    # 5
-    # gg
-    # 2
-    # 1
 
+print_list_demo()
 
-def main():
-    hello_demo()
-    print_list_demo()
-
-
-if __name__ == '__main__':
-    main()
+# Output:
+# dd
+# 6
+# ss
+# 5
+# gg
+# 2
+# 1
