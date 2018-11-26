@@ -155,10 +155,5 @@ def write_demo():
     # >> 4
 
 
-def main():
-    fib_demo()
-    write_demo()
-
-
-if __name__ == '__main__':
-    main()
+fib_demo()
+write_demo()
