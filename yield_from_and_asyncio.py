@@ -34,15 +34,18 @@ def hello_demo() -> None:
     tasks = [hello(), hello()]
     loop.run_until_complete(future=asyncio.wait(tasks))
 
-    # Output:
-    # Hello, world! (<_MainThread(MainThread, started 4320760640)>)
-    # Hello, world! (<_MainThread(MainThread, started 4320760640)>)
-    # (Will be pending here for around 1 second)
-    # Hello again! (<_MainThread(MainThread, started 4320760640)>)
-    # Hello again! (<_MainThread(MainThread, started 4320760640)>)
 
-    # From the printed thread information, the two coroutines are run by the
-    # same thread concurrently.
+hello_demo()
+
+# Output:
+# Hello, world! (<_MainThread(MainThread, started 4320760640)>)
+# Hello, world! (<_MainThread(MainThread, started 4320760640)>)
+# (Will be pending here for around 1 second)
+# Hello again! (<_MainThread(MainThread, started 4320760640)>)
+# Hello again! (<_MainThread(MainThread, started 4320760640)>)
+
+# From the printed thread information, the two coroutines are run by the
+# same thread concurrently.
 
 
 @asyncio.coroutine
@@ -70,23 +73,22 @@ def wget_demo() -> None:
     loop.run_until_complete(asyncio.wait(tasks))
     loop.close()
 
-    # Output:
-    # wget www.163.com...
-    # wget www.sina.com.cn
-    # wget www.sohu.com...
-    # www.sina.com.cn header > HTTP/1.1 200 OK
-    # www.sina.com.cn header > Date: Fri, 9 Feb 2018 02:21:45 GMT
-    # ...
-    # www.sina.com.cn header > Connection: close
-    # www.163.com header > HTTP/1.0 302 Moved Temporarily
-    # www.163.com header > Server: Cdn Cache Server V2.0
-    # ...
-    # www.163.com header > Connection: close
-    # www.sohu.com header > HTTP/1.1 200 OK
-    # www.sohu.com header > Content-Type: text/html;charset=UTF-8
-    # ...
-    # www.sohu.com header > FSS-Proxy: Powered by 9863722.11239988.17665343
 
-
-hello_demo()
 wget_demo()
+
+# Output:
+# wget www.163.com...
+# wget www.sina.com.cn
+# wget www.sohu.com...
+# www.sina.com.cn header > HTTP/1.1 200 OK
+# www.sina.com.cn header > Date: Fri, 9 Feb 2018 02:21:45 GMT
+# ...
+# www.sina.com.cn header > Connection: close
+# www.163.com header > HTTP/1.0 302 Moved Temporarily
+# www.163.com header > Server: Cdn Cache Server V2.0
+# ...
+# www.163.com header > Connection: close
+# www.sohu.com header > HTTP/1.1 200 OK
+# www.sohu.com header > Content-Type: text/html;charset=UTF-8
+# ...
+# www.sohu.com header > FSS-Proxy: Powered by 9863722.11239988.17665343
