@@ -24,7 +24,7 @@ This repo talks about asynchronous IO and its solution in Python, which is calle
 
 ### 同步、异步、阻塞、非阻塞之间的关系
 
-同步 vs 异步   *关注的是消息通信机制*
+同步 vs 异步:   *关注的是消息通信机制*
 
 阻塞 vs 非阻塞:   *关注的是程序在等待调用结果时的状态*
 
