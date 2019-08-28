@@ -65,11 +65,11 @@ def B():
 
 **具体例子参见以下Python module:**
 
-* **simple_yield.py**
+* `simple_yield.py`
 
-* **yield_from.py**
+* `yield_from.py`
 
-* **yield_from_and_asyncio.py**
+* `yield_from_and_asyncio.py`
 
   用``asyncio``提供的``@asyncio.coroutine``可以把一个generator标记为coroutine类型, 然后在coroutine内部``yield from``调用另一个coroutine实现异步操作
 
@@ -161,8 +161,8 @@ The pipeline needs:
 
 具体例子参见 Curious Course on Coroutines and Concurrency文件夹中:
 
-* copipe.py
-* cobroadcast.py
+* `copipe.py`
+* `cobroadcast.py`
 
 ### 2. Event Dispatching
 
@@ -170,12 +170,12 @@ Coroutines can be used to write various components that process event streams.
 
 具体例子参见Curious Course on Coroutines and Concurrency文件夹中:
 
-* basicsax.py & cosax.py
-* cosax_bus.py
+* `basicsax.py` & `cosax.py`
+* `cosax_bus.py`
 
 *One interesting thing about coroutines is that you can push the initial data source as low-level as you want to make it without rewriting all of the processing stages.*
 
-* coexpat_bus.py
+* `coexpat_bus.py`
 
 <br>
 
@@ -185,8 +185,8 @@ You can package coroutines inside threads or subprocesses by adding extra layers
 
 具体例子参见Curious Course on Coroutines and Concurrency文件夹中:
 
-* cothread.py
-* coprocess.py & coprocess_bus.py
+* `cothread.py`
+* `coprocess.py` & `coprocess_bus.py`
 
 **本质上:**
 
