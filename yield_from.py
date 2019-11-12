@@ -26,8 +26,8 @@ def fib(limit: int) -> Generator:
 
 def fib_wrapper(func_iterable: Generator) -> Generator:
     """
-    Wrapper function for the given generator object (iterable) by yielding by
-    iterating the given generator object.
+    Wrapper function for the given generator object (iterable) by iterating
+    (yielding) the given generator object.
     :param func_iterable: Generator object
     :return: Generator object
     """
@@ -87,6 +87,9 @@ def fib_demo() -> None:
     # end
 
 
+fib_demo()
+
+
 class SpamException(Exception):
     pass
 
@@ -109,7 +112,7 @@ def writer() -> Generator:
 
 def writer_wrapper(coro: Coroutine) -> Coroutine:
     """
-    Wrapper function for the given coroutine.
+    Wrapper coroutine for the given coroutine.
     :param coro: coroutine
     :return: coroutine
     """
@@ -126,16 +129,6 @@ def writer_wrapper(coro: Coroutine) -> Coroutine:
                 coro.send(x)
         except StopIteration:
             pass
-
-
-def writer_wrapper_2(coro: Coroutine) -> Coroutine:
-    """
-    Wrapper function for the given coroutine by simply "yield from" the given
-    coroutine.
-    :param coro: coroutine
-    :return: coroutine
-    """
-    yield from coro
 
 
 def write_demo():
@@ -155,5 +148,4 @@ def write_demo():
     # >> 4
 
 
-fib_demo()
 write_demo()

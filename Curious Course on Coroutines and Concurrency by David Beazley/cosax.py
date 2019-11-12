@@ -37,8 +37,9 @@ def printer():
 
 
 def main():
-    xml.sax.parse(source='allroutes.xml',
-                  handler=EventHandler(target=printer()))
+    xml.sax.parse(
+        source='allroutes.xml', handler=EventHandler(target=printer())
+    )
 
 
 if __name__ == '__main__':

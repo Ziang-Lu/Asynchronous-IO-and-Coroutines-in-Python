@@ -1,8 +1,8 @@
-This repo talks about asynchronous IO and its solution in Python, which is called coroutines. 
+This repo talks about asynchronous IO and its solution in Python, which is called coroutines.
 
 # Asynchronous IO
 
-由于CPU的速度远远快于磁盘、网络等IO, 在一个thread中, CPU执行代码的速度极快, 然而一旦遇到IO操作, 如读写文件、发送网络数据时, 就需要等待IO操作才能完成, 才能继续进行下一步操作
+由于CPU的速度远远快于磁盘、网络等IO, 在一个thread中, CPU执行代码的速度极快, 然而一旦遇到IO操作, 如读写文件、发送网络数据时, 就需要等待IO操作才能完成, 才能继续进行下一步操作.
 
 => 同步IO
 
@@ -56,8 +56,8 @@ def B():
 # 1
 # 2
 # x
-# y
 # 3
+# y
 # z
 ```
 

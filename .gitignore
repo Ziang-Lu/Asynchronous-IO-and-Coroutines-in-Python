@@ -1,4 +1,8 @@
 .DS_Store
 
+# Python compilation files
 __pycache__/
 .pyc
+
+# Project files
+.vscode/

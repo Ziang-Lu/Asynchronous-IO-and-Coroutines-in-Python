@@ -66,16 +66,18 @@ def bus_info_printer():
     while True:
         bus = yield
         print(
-            f'{bus[route]}, {bus[id]}, {bus[direction]}, {bus[latitude]}, '
-            f'{bus[longitude]}'
+            f"{bus['route']}, {bus['id']}, {bus['direction']}, "
+            f"{bus['latitude']}, {bus['longitude']}"
         )
 
 
 def main():
-    direction_filter = filter_on_field(field='direction', val='North Bound',
-                                       target=bus_info_printer())
-    route_filter = filter_on_field(field='route', val='22',
-                                   target=direction_filter)
+    direction_filter = filter_on_field(
+        field='direction', val='North Bound', target=bus_info_printer()
+    )
+    route_filter = filter_on_field(
+        field='route', val='22', target=direction_filter
+    )
     xml.sax.parse(
         source='allroutes.xml',
         handler=EventHandler(target=buses_to_dicts(target=route_filter))

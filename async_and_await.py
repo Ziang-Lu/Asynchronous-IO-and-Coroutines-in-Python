@@ -14,6 +14,7 @@ __author__ = 'Ziang Lu'
 
 import asyncio
 import random
+import threading
 from typing import Coroutine
 
 
@@ -22,9 +23,10 @@ async def hello() -> Coroutine:
     Dummy coroutine.
     :return: coroutine
     """
-    print('Hello, world!')
-    await asyncio.sleep(delay=1)
-    print('Hello again!')
+    th_name = threading.current_thread().name
+    print(f'Hello, world! ({th_name})')
+    await asyncio.sleep(1)
+    print(f'Hello again! ({th_name})')
 
 
 def hello_demo() -> None:

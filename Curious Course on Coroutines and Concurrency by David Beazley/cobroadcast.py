@@ -78,7 +78,7 @@ def printer():
         pass
 
 
-def main(filename):
+def main(filename: str):
     p = printer()
     source_read(
         filename=filename,

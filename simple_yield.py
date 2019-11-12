@@ -15,6 +15,7 @@ def consumer() -> Coroutine:
     Consumer coroutine.
     :return: coroutine
     """
+    print('[CONSUMER] Starting consumer...')
     r = ''
     while True:
         n = yield r  # 1. 协程运行至第一个yield, 并挂起
@@ -27,28 +28,29 @@ def consumer() -> Coroutine:
         r = '200 OK'
 
 
-def produce(c: Coroutine) -> None:
+def produce(consumer: Coroutine) -> None:
     """
     Producer coroutine.
-    :param c: coroutine
+    :param consumer: coroutine
     :return: None
     """
-    c.send(None)  # 1. 启动协程
+    consumer.send(None)  # 1. 启动协程
     n = 1
     while n <= 5:
         print(f'[PRODUCER] Producing {n}...')
-        r = c.send(n)  # 2. 通过send(n)将参数n传给协程, 并挂起当前执行, 等待协程执行结果
+        r = consumer.send(n)  # 2. 通过send(n)将参数n传给协程, 并挂起当前执行, 等待协程执行结果
         # 3. 接收协程传回的结果r
         # 4 -> 2
         print(f'[PRODUCER] Consumer return: {r}')
         n += 1
-    c.close()
+    consumer.close()
 
 
 c = consumer()
 produce(c)
 
 # Output:
+# [CONSUMER] Starting consumer...
 # [PRODUCER] Producing 1...
 # [CONSUMER] Consuming 1...
 # [PRODUCER] Consumer return: 200 OK

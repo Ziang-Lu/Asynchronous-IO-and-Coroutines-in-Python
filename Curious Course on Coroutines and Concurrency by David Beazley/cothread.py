@@ -3,7 +3,7 @@
 
 """
 An example showing how to wrap a coroutine outside of a thread.
-The calling thread and the new thread communicates via a message queue.
+The calling thread and the new thread communicate via a message queue.
 """
 
 import threading
@@ -20,7 +20,7 @@ from cosax_bus import bus_info_printer, buses_to_dicts, filter_on_field
 def threaded(target: Coroutine):
     """
     A coroutine that fires a new thread to do the work.
-    The calling thread and the new thread communicates via a message queue.
+    The calling thread and the new thread communicate via a message queue.
     :param target: coroutine
     :return: coroutine
     """
@@ -35,7 +35,7 @@ def threaded(target: Coroutine):
                 return
             target.send(item)
 
-    # The calling thread and the new thread communicates by a message queue.
+    # The calling thread and the new thread communicate via a message queue.
     queue = Queue()
     th = threading.Thread(target=func)
     th.start()
@@ -50,10 +50,12 @@ def threaded(target: Coroutine):
 
 
 def main():
-    direction_filter = filter_on_field(field='direction', val='North Bound',
-                                       target=bus_info_printer())
-    route_filter = filter_on_field(field='route', val='22',
-                                   target=direction_filter)
+    direction_filter = filter_on_field(
+        field='direction', val='North Bound', target=bus_info_printer()
+    )
+    route_filter = filter_on_field(
+        field='route', val='22', target=direction_filter
+    )
     xml.sax.parse(
         source='allroutes.xml',
         handler=EventHandler(

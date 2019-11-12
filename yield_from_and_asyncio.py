@@ -15,7 +15,7 @@ import threading
 def hello():
     th_name = threading.current_thread().name
     print(f'Hello, world! ({th_name})')
-    yield from asyncio.sleep(delay=1)  # asyncio.sleep()也是一个coroutine object
+    yield from asyncio.sleep(1)  # asyncio.sleep()也是一个coroutine object
     # 所以线程不会等待asyncio.sleep(), 而是直接挂起并执行下一个消息循环
     # 即可以把asyncio.sleep(1)看成一个耗时1秒的IO操作, 在此期间, 主线程并未等待, 而是去执行EventLoop中其他可以执行的
     # coroutine了, 从而实现并发
@@ -49,10 +49,10 @@ hello_demo()
 
 
 @asyncio.coroutine
-def wget(host):
+def wget(host: str):
     print(f'wget {host}...')
     reader, writer = yield from asyncio.open_connection(host=host, port=80)
-    header = 'GET / HTTP/1.0\r\nHost: %s\r\n\r\n' % host
+    header = f'GET / HTTP/1.0\r\nHost: {host}\r\n\r\n'
     writer.write(header.encode('utf-8'))
     yield from writer.drain()
     while True:

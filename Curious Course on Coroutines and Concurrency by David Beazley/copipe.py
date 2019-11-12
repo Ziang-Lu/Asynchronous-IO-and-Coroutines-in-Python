@@ -61,8 +61,9 @@ def printer():
 
 
 def main(filename):
-    source_read(filename=filename,
-                target=grep(pattern='python', target=printer()))
+    source_read(
+        filename=filename, target=grep(pattern='python', target=printer())
+    )
 
 
 if __name__ == '__main__':

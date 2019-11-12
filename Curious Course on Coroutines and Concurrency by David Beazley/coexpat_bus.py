@@ -29,12 +29,15 @@ def expat_parse(filename: str, target: Coroutine) -> None:
 def main():
     # Push the lower-level initial data source into the same processing stages
     # without rewriting
-    direction_filter = filter_on_field(field='direction', val='North Bound',
-                                       target=bus_info_printer())
-    route_filter = filter_on_field(field='route', val='22',
-                                   target=direction_filter)
-    expat_parse(filename='allroutes.xml',
-                target=buses_to_dicts(target=route_filter))
+    direction_filter = filter_on_field(
+        field='direction', val='North Bound', target=bus_info_printer()
+    )
+    route_filter = filter_on_field(
+        field='route', val='22', target=direction_filter
+    )
+    expat_parse(
+        filename='allroutes.xml', target=buses_to_dicts(target=route_filter)
+    )
 
 
 if __name__ == '__main__':
