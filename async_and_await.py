@@ -8,6 +8,10 @@ From Python 3.5, Python provides "async" and "await" keywords to support
 asynchronous IO and coroutine, and to simplify the code:
 Simply replace the previous "@asyncio.coroutine" with "async" in the function
 declaration, and replace the previous "yield from" with "await".
+
+Also, note that the way to run coroutines also changed:
+- Higher-level API using asyncio module functions
+- Lower-level API using the event loop directly, as in the previous demo
 """
 
 __author__ = 'Ziang Lu'
@@ -29,12 +33,7 @@ async def hello() -> Coroutine:
     print(f'Hello again! ({th_name})')
 
 
-def hello_demo() -> None:
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(future=hello())
-
-
-hello_demo()
+asyncio.run(hello())
 
 # Output:
 # Hello, world!
@@ -54,14 +53,17 @@ async def mygen(a: list) -> Coroutine:
         await asyncio.sleep(delay=1)
 
 
-def print_list_demo() -> None:
-    loop = asyncio.get_event_loop()
+async def print_list_demo() -> None:
     tasks = [mygen(['ss', 'dd', 'gg']), mygen([1, 2, 5, 6])]
-    loop.run_until_complete(future=asyncio.wait(tasks))
-    loop.close()
+    # task1 = asyncio.create_task(mygen(['ss', 'dd', 'gg']))
+    # task2 = asyncio.create_task(mygen([1, 2, 5, 6]))
+    # tasks = [task1, task2]
+    await asyncio.gather(*tasks, return_exceptions=True)
+    # When coroutines are passed to asyncio.wait(), they are automatically
+    # wrapped in tasks, so no need to do it manually.
 
 
-print_list_demo()
+asyncio.run(print_list_demo())
 
 # Output:
 # dd
@@ -71,3 +73,5 @@ print_list_demo()
 # gg
 # 2
 # 1
+# {<Task finished coro=<mygen() done, defined at async_and_await.py:40> result=None>, <Task finished coro=<mygen() done, defined at async_and_await.py:40> result=None>}
+# set()

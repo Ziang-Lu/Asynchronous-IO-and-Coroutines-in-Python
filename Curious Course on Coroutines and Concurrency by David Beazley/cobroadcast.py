@@ -80,16 +80,11 @@ def printer():
 
 def main(filename: str):
     p = printer()
-    source_read(
-        filename=filename,
-        target=broadcast(
-            targets=[
-                grep(pattern='python', target=p),
-                grep(pattern='swig', target=p),
-                grep(pattern='ply', target=p)
-            ]
-        )
-    )
+    grep_filter1 = grep(pattern='python', target=p)
+    grep_filter2 = grep(pattern='swig', target=p)
+    grep_filter3 = grep(pattern='ply', target=p)
+    broadcaster = broadcast(targets=[grep_filter1, grep_filter2, grep_filter3])
+    source_read(filename=filename, target=broadcaster)
 
 
 if __name__ == '__main__':

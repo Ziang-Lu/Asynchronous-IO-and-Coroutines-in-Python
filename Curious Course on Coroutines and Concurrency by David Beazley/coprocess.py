@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-An example showing how to wrap a coroutine with a subprocess.
+An example showing how to wrap coroutines within a subprocess.
 The calling process and the new subprocess communicate via a pipe.
 """
 
@@ -32,10 +32,12 @@ def send_to(f):
 
 
 def main():
+    # Start a subprocess, which wraps coroutines, and listening on "stdin" pipe
     p = subprocess.Popen(['python3', 'coprocess_bus.py'], stdin=subprocess.PIPE)
+
     xml.sax.parse(
         source='allroutes.xml',
-        handler=EventHandler(target=buses_to_dicts(target=send_to(f=p.stdin)))
+        handler=EventHandler(target=buses_to_dicts(target=send_to(p.stdin)))
     )
 
 

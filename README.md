@@ -19,6 +19,8 @@ This repo talks about asynchronous IO and its solution in Python, which is calle
 * 另一种解决办法: 异步IO
 
   当代码需要执行一个耗时的IO操作时, 它只发出IO请求, 并不等待IO结果, 然后就去执行其他代码了; 一段时间后, 当IO结果返回时, 再通知CPU进行处理
+  
+  *注意: 对于CPU密集型任务, 使用异步IO并不能加快程序运行, 因为CPU本身并没有在等待.*
 
 <br>
 
@@ -72,42 +74,33 @@ def B():
 * `yield_from_and_asyncio.py`
 
   用``asyncio``提供的``@asyncio.coroutine``可以把一个generator标记为coroutine类型, 然后在coroutine内部``yield from``调用另一个coroutine实现异步操作
+  
+  ***
+  
+  用这种方式实现的coroutine本质上是一个"generator-based coroutine", 二者的实现看起来很相似, 而其区别在于:
+  
+  * Generators produce data for iteration;
+  * Coroutines tend to consume value, i.e., coroutines are not related to iteration.
+  
+  ***
+  
+* `async_and_await.py`
 
-<br>
+  本质上是一个语法糖, 用`async def / await`来代替之前的`@asyncio.coroutine / yield from`
 
-## Coroutines vs Generators
+* 注意, `asyncio`中也提供了各种`Queue`的实现来帮助在coroutine之间通信, 参见:
 
-* Generators produce data for iteration.
-
-* Coroutines tend to consume value.
-
-  *Coroutines are not related to iteration.*
-
-<br>
-
-## 协程的优势
-
-1. 协程之间可以彼此"链接"起来
-
-   对比thread, 操作系统是没有提供方式将不同的thread链接起来的
-
-2. 极高的执行效率
-
-   因为子程序 (协程) 切换不是thread切换, 而是由程序自身控制, 因此没有thread切换的开销
-
-3. 不需要multi-threading的锁机制
-
-   因为只有一个thread, 不需要对共享资源进行控制
+  `comm_via_queue.py`
 
 <br>
 
 ## Practical Applications
 
-### 1. Pipelines Processing
+### 1. Pipeline Processing
 
 Coroutines can be used to set up pipes.
 
-* You just chain coroutines together and push data through the pip with ``send()`` operation.
+* You just chain coroutines together and push data through the pipe with ``send()`` operation.
 * If you built a collection of simple data processing components, you can glue them together into complex arrangemenets of pipes, branches, merging, etc.
 
 The pipeline needs:
@@ -145,7 +138,7 @@ The pipeline needs:
 
 * A sink (consumer)
 
-  Collects all data sent to it and process.
+  Collects all data sent to it and process
 
   ```python
   @coroutine
@@ -164,6 +157,8 @@ The pipeline needs:
 * `copipe.py`
 * `cobroadcast.py`
 
+<br>
+
 ### 2. Event Dispatching
 
 Coroutines can be used to write various components that process event streams.
@@ -179,14 +174,67 @@ Coroutines can be used to write various components that process event streams.
 
 <br>
 
+## Comparison between Multi-threading, Multi-processing, and Asynchronous IO in Python
+
+After studying asynchronous IO in Python, we are able to compare these three concurrent strategies:
+
+|                                         | Multi-processing                                             | Multi-threading                                              | Asynchronous IO                                              |
+| --------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Use blocking standard library functions | **YES**                                                      | **YES**                                                      | NO                                                           |
+| Optimize waiting periods                | YES<br>Preemptive, because the OS handles subprocess scheduling | YES<br>Preemptive, because the OS handles thread scheduling  | YES<br>Cooperative, because the Python interpreter itself handles coroutine scheduling |
+| Use all CPU cores                       | **YES**<br>=> 可以把thread/coroutine包在subprocess之中, 达到充分利用多核CPU的目的<br>e.g., 把coroutine包在subprocess之中: `coprocess.py` & `coprocess_bus.py` | NO                                                           | NO                                                           |
+| GIL interference                        | **NO**                                                       | Some<br>(对于IO密集型程序, 由于CPU可以在thread等待期间执行其他thread, NO)<br>(对于CPU计算密集型程序, YES) | **NO**                                                       |
+| Scalability<br>(本质上, 与开销有关)     | Low                                                          | Medium                                                       | **High**<br>=> 对于真正需要巨大scalability时, 才考虑使用async<br>i.e., server需要处理大量requests时 |
+
+### 协程的优势
+
+1. 极高的执行效率
+
+   因为子程序 (协程) 切换不是thread切换, 而是由程序自身控制, 因此没有thread切换的开销
+
+2. 不需要multi-threading的锁机制
+
+   因为只有一个thread, 不需要对共享资源进行控制
+
+   *-> 在一个子程序 (协程) 两次`await` call之间, 共享资源不会被其他子程序 (协程) 更改*
+
+3. 高可扩展性 (High scalability)
+
+   (详见表格中描述)
+
+4. 协程之间可以彼此"链接"起来
+
+   对比thread, 操作系统是没有提供方式将不同的thread链接起来的
+
+   (=> 前面的pipeline processing应用模式)
+
+<br>
+
 ## Coroutines + Multi-threading / Multi-processing
 
-You can package coroutines inside threads or subprocesses by adding extra layers.
+#### Coroutine -> Subprocesses
 
-具体例子参见Curious Course on Coroutines and Concurrency文件夹中:
+从coroutine中spawn new subprocess
 
-* `cothread.py`
-* `coprocess.py` & `coprocess_bus.py`
+参见`asyncio_subprocess.py`
+
+<br>
+
+#### Coroutine -> Thread
+
+从coroutine中fire new thread
+
+参见`cothread.py`
+
+<br>
+
+#### Subprocess [Coroutine]
+
+把coroutine包在subprocess之中
+
+参见`coprocess.py` & `coprocess_bus.py`
+
+<br>
 
 **本质上:**
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-An example showing how to wrap a coroutine outside of a thread.
+An example showing how to wrap a thread within a coroutine.
 The calling thread and the new thread communicate via a message queue.
 """
 
@@ -16,6 +16,21 @@ from cosax import EventHandler
 from cosax_bus import bus_info_printer, buses_to_dicts, filter_on_field
 
 
+def thread_func(q: Queue, target: Coroutine) -> None:
+    """
+    Thread function to receive items, and feeds them into the given coroutine.
+    :param q: Queue
+    :param target: coroutine
+    :return: None
+    """
+    while True:
+        item = q.get()
+        if item is GeneratorExit:
+            target.close()
+            return
+        target.send(item)
+
+
 @coroutine
 def threaded(target: Coroutine):
     """
@@ -24,34 +39,24 @@ def threaded(target: Coroutine):
     :param target: coroutine
     :return: coroutine
     """
-
-    def func():
-        # Receive items in the new thread, and feeds them into the given
-        # coroutine
-        while True:
-            item = queue.get()
-            if item is GeneratorExit:
-                target.close()
-                return
-            target.send(item)
-
     # The calling thread and the new thread communicate via a message queue.
-    queue = Queue()
-    th = threading.Thread(target=func)
+    q = Queue()
+    th = threading.Thread(target=thread_func, args=(q, target))
     th.start()
     # Receive items in the current thread, and pass them into the new thread via
     # the queue
     try:
         while True:
             item = yield
-            queue.put(item)
+            q.put(item)
     except GeneratorExit:
-        queue.put(GeneratorExit)
+        q.put(GeneratorExit)
 
 
 def main():
+    printer = bus_info_printer()
     direction_filter = filter_on_field(
-        field='direction', val='North Bound', target=bus_info_printer()
+        field='direction', val='North Bound', target=printer
     )
     route_filter = filter_on_field(
         field='route', val='22', target=direction_filter

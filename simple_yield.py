@@ -28,22 +28,22 @@ def consumer() -> Coroutine:
         r = '200 OK'
 
 
-def produce(consumer: Coroutine) -> None:
+def produce(con: Coroutine) -> None:
     """
     Producer coroutine.
-    :param consumer: coroutine
+    :param con: coroutine
     :return: None
     """
-    consumer.send(None)  # 1. 启动协程
+    con.send(None)  # 1. 启动协程
     n = 1
     while n <= 5:
         print(f'[PRODUCER] Producing {n}...')
-        r = consumer.send(n)  # 2. 通过send(n)将参数n传给协程, 并挂起当前执行, 等待协程执行结果
+        r = con.send(n)  # 2. 通过send(n)将参数n传给协程, 并挂起当前执行, 等待协程执行结果
         # 3. 接收协程传回的结果r
         # 4 -> 2
         print(f'[PRODUCER] Consumer return: {r}')
         n += 1
-    consumer.close()
+    con.close()
 
 
 c = consumer()

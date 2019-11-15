@@ -1,6 +1,11 @@
 #!usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+Subprocess module wrapping coroutines, which communicates with the calling
+process via a pipe.
+"""
+
 import pickle
 import sys
 from typing import Coroutine
@@ -24,8 +29,9 @@ def receive_from(f, target: Coroutine) -> None:
         target.close()
 
 
+printer = bus_info_printer()
 direction_filter = filter_on_field(
-    field='direction', val='North Bound', target=bus_info_printer()
+    field='direction', val='North Bound', target=printer
 )
 route_filter = filter_on_field(field='route', val='22', target=direction_filter)
-receive_from(f=sys.stdin, target=route_filter)
+receive_from(sys.stdin, target=route_filter)

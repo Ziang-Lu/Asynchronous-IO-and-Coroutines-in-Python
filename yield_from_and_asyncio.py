@@ -10,6 +10,12 @@ __author__ = 'Ziang Lu'
 import asyncio
 import threading
 
+# asyncio的编程模型就是一个事件循环
+# 一方面, 它类似于CPU, 顺序执行协程的代码; 另一方面, 它相当于操作系统, 完成协程的调度
+
+# 从asyncio模块中直接获取一个EventLoop的引用
+loop = asyncio.get_event_loop()
+
 
 @asyncio.coroutine  # 把hello()变成一个协程
 def hello():
@@ -23,11 +29,6 @@ def hello():
 
 
 def hello_demo() -> None:
-    # asyncio的编程模型就是一个事件循环
-    # 一方面, 它类似于CPU, 顺序执行协程的代码; 另一方面, 它相当于操作系统, 完成协程的调度
-
-    # 从asyncio模块中直接获取一个EventLoop的引用
-    loop = asyncio.get_event_loop()
     # 把需要执行的协程扔到EventLoop中执行, 顺序执行某个协程, 遇到yield from就挂起, 去执行另一个协程, 再遇到yield from
     # 再挂起, 再执行下一个协程, 如此循环; 直到某个协程得到了yield from的返回值, 便继续从该yield from语句向下执行, 直到所有的
     # 协程执行完毕退出, 这就实现了异步IO
@@ -65,16 +66,16 @@ def wget(host: str):
 
 
 def wget_demo() -> None:
-    loop = asyncio.get_event_loop()
     tasks = [
         wget(host)
         for host in ['www.sina.com.cn', 'www.sohu.com', 'www.163.com']
     ]
-    loop.run_until_complete(asyncio.wait(tasks))
-    loop.close()
+    loop.run_until_complete(future=asyncio.wait(tasks))
 
 
 wget_demo()
+
+loop.close()
 
 # Output:
 # wget www.163.com...
