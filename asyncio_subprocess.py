@@ -9,6 +9,8 @@ Basically, this can be done in both higher-level API (using asyncio module
 functions) and lower-level API (using the event loop directly).
 """
 
+__author__ = 'Ziang Lu'
+
 import asyncio
 import sys
 
