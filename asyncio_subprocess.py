@@ -17,18 +17,23 @@ import sys
 
 async def get_date() -> str:
     """
-    Coroutine to spawn a new subprocess,
+    Coroutine to spawn a new subprocess, execute some code, and the calling
+    process and the new subprocess communicate via a pipe.
     :return: str
     """
+    # Spawn a new subprocess, execute some code, and setting the new subprocess
+    # communicates back to the calling process via a pipe
     code = 'from datetime import datetime; print(datetime.now())'
-    process = await asyncio.create_subprocess_exec(
+    p = await asyncio.create_subprocess_exec(
         sys.executable, '-c', code, stdout=asyncio.subprocess.PIPE
     )
 
-    data = await process.stdout.readline()
+    # Read output from the new subprocess via the pipe
+    data = await p.stdout.readline()
     line = data.decode('utf-8').rstrip()
 
-    await process.wait()
+    # Wait for the new subprocess to terminate
+    await p.wait()
     return line
 
 

@@ -14,7 +14,7 @@ from asyncio import Queue
 from typing import Coroutine
 
 
-async def worker(name: str, q: Queue) -> Coroutine:
+async def worker_coro(name: str, q: Queue) -> Coroutine:
     """
     Worker coroutine.
     :param name: str
@@ -31,6 +31,8 @@ async def worker(name: str, q: Queue) -> Coroutine:
 async def main():
     q = Queue()
     # Generate some random timings and put them into the queue
+    # i.e., This main function also works as a "producer", but just putting all
+    #       the tasks in one batch.
     total_sleep_time = 0
     for _ in range(20):
         sleep_for = random.uniform(0.05, 1.0)
@@ -40,7 +42,7 @@ async def main():
     # Create 3 worker tasks to process the queue concurrently
     tasks = []
     for i in range(3):
-        task = asyncio.create_task(worker(f'Worker-{i}', q))
+        task = asyncio.create_task(worker_coro(f'Worker-{i}', q))
         tasks.append(task)
 
     # Wait until the queue is fully processed
@@ -48,16 +50,16 @@ async def main():
     await q.join()
     total_slept_for = time.monotonic() - started_at
 
-    # Since a worker task runs in an infinite loop, we need to cancel our worker
-    # tasks.
+    # Since a worker task runs in an infinite loop, we need to manually cancel
+    # them.
     for task in tasks:
         task.cancel()
-    # Wait until all worker tasks are cancelled.
+    # Wait until all worker tasks are cancelled
     await asyncio.gather(*tasks, return_exceptions=True)
 
     print('==========')
-    print(f'3 workers slept in parallel for {total_slept_for:.2f} seconds')
     print(f'Total expected sleep time: {total_sleep_time:.2f} seconds')
+    print(f'3 workers slept in parallel for {total_slept_for:.2f} seconds')
 
 
 asyncio.run(main())
@@ -84,5 +86,5 @@ asyncio.run(main())
 # Worker-1 has slept for 0.54 seconds
 # Worker-0 has slept for 0.71 seconds
 # =====
-# 3 workers slept in parallel for 3.66 seconds
 # Total expected sleep time: 9.97 seconds
+# 3 workers slept in parallel for 3.66 seconds

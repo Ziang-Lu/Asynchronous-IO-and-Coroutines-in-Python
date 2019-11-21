@@ -182,7 +182,7 @@ After studying asynchronous IO in Python, we are able to compare these three con
 | --------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Use blocking standard library functions | **YES**                                                      | **YES**                                                      | NO                                                           |
 | Optimize waiting periods                | YES<br>Preemptive, because the OS handles subprocess scheduling | YES<br>Preemptive, because the OS handles thread scheduling  | YES<br>Cooperative, because the Python interpreter itself handles coroutine scheduling |
-| Use all CPU cores                       | **YES**<br>=> 可以把thread/coroutine包在subprocess之中, 达到充分利用多核CPU的目的<br>e.g., 把coroutine包在subprocess之中: `coprocess.py` & `coprocess_bus.py` | NO                                                           | NO                                                           |
+| Use all CPU cores                       | **YES**<br>=> 可以把thread/coroutine包在subprocess之中, 达到充分利用多核CPU的目的<br>e.g., 把coroutine包在subprocess之中: https://github.com/Ziang-Lu/Multiprocessing-and-Multithreading/blob/master/Multi-processing%20and%20Multi-threading%20in%20Python/Multi-processing/multiprocessing_async.py<br>同时参考`coprocess.py`和`coprocess_bus.py` | NO                                                           | NO                                                           |
 | GIL interference                        | **NO**                                                       | Some<br>(对于IO密集型程序, 由于CPU可以在thread等待期间执行其他thread, NO)<br>(对于CPU计算密集型程序, YES) | **NO**                                                       |
 | Scalability<br>(本质上, 与开销有关)     | Low                                                          | Medium                                                       | **High**<br>=> 对于真正需要巨大scalability时, 才考虑使用async<br>i.e., server需要处理大量requests时 |
 
@@ -210,29 +210,48 @@ After studying asynchronous IO in Python, we are able to compare these three con
 
 <br>
 
-## Coroutines + Multi-threading / Multi-processing
+## Async + Multi-threading / Multi-processing
 
 #### Coroutine -> Subprocesses
 
-从coroutine中spawn new subprocess
+<u>从coroutine中spawn new subprocess</u>
 
-参见`asyncio_subprocess.py`
+* 参见`asyncio_subprocess.py`  [由`asyncio`模块控制]
 
 <br>
 
 #### Coroutine -> Thread
 
-从coroutine中fire new thread
+<u>从coroutine中fire new thread</u>
 
-参见`cothread.py`
+* 同时参考`cothread.py`  [由`asyncio`模块控制]
 
 <br>
 
 #### Subprocess [Coroutine]
 
-把coroutine包在subprocess之中
+<u>把coroutine包在subprocess之中</u>
 
-参见`coprocess.py` & `coprocess_bus.py`
+*(创建一个process pool (subprocesses), 在其中放入async的task (coroutine))*
+
+* 参见https://github.com/Ziang-Lu/Multiprocessing-and-Multithreading/blob/master/Multi-processing%20and%20Multi-threading%20in%20Python/Multi-processing/multiprocessing_async.py  [两种实现方式, 分别由`concurrent.futures`模块和`multiprocessing`模块控制]
+
+* 同时参考`coprocess.py` & `coprocess_bus.py`  [由`asyncio`模块控制]
+
+**适用情况: 如果有很多CPU计算密集型任务, 可以把它们放入一个process pool, 充分利用多核的计算能力, 提高计算效率**
+
+<br>
+
+#### Thread [Coroutine]
+
+把coroutine包在thread之中
+
+*(创建一个thread pool, 在其中放入async的task (coroutine))*
+
+* 参见https://github.com/Ziang-Lu/Multiprocessing-and-Multithreading/blob/master/Multi-processing%20and%20Multi-threading%20in%20Python/Multi-threading/multithreading_async.py  [由`concurrent.futures`模块控制]
+* 另一种实现方式: 参见`multithreading_async.py`  [由`concurrent.futures`模块和`asyncio`模块共同控制]
+
+**适用情况: 如果有很多IO密集型任务, 可以把他们放入thread pool**
 
 <br>
 
@@ -241,7 +260,7 @@ After studying asynchronous IO in Python, we are able to compare these three con
 **With coroutines, you can separate the implementation of a task from its execution environment:**
 
 * **The coroutine is the implementation.**
-* **The environment is whatever you choose (threads, subprocesses, network, etc.).**
+* **The environment is whatever you choose (subprocesses, threads, network, etc.).**
 
 <br>
 

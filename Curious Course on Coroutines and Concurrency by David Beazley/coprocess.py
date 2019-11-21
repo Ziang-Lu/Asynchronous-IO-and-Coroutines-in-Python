@@ -32,12 +32,16 @@ def send_to(f):
 
 
 def main():
-    # Start a subprocess, which wraps coroutines, and listening on "stdin" pipe
+    # Start a new subprocess, which wraps some connected coroutines, and
+    # listening on a pipe.
     p = subprocess.Popen(['python3', 'coprocess_bus.py'], stdin=subprocess.PIPE)
 
+    # Set a sender coroutine to send data to the pipe that the new subprocess is
+    # listening on
+    sender = send_to(p.stdin)
     xml.sax.parse(
         source='allroutes.xml',
-        handler=EventHandler(target=buses_to_dicts(target=send_to(p.stdin)))
+        handler=EventHandler(target=buses_to_dicts(target=sender))
     )
 
 

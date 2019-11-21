@@ -59,7 +59,7 @@ async def print_list_demo() -> None:
     # task2 = asyncio.create_task(mygen([1, 2, 5, 6]))
     # tasks = [task1, task2]
     await asyncio.gather(*tasks, return_exceptions=True)
-    # When coroutines are passed to asyncio.wait(), they are automatically
+    # When coroutines are passed to asyncio.gather(), they are automatically
     # wrapped in tasks, so no need to do it manually.
 
 
