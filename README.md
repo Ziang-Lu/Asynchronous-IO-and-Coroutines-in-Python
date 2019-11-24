@@ -73,7 +73,7 @@ def B():
 
 * `yield_from_and_asyncio.py`
 
-  用``asyncio``提供的``@asyncio.coroutine``可以把一个generator标记为coroutine类型, 然后在coroutine内部``yield from``调用另一个coroutine实现异步操作
+  用`asyncio`提供的``@asyncio.coroutine``可以把一个generator标记为coroutine类型, 然后在coroutine内部``yield from``调用另一个coroutine实现异步操作
   
   ***
   
@@ -249,7 +249,8 @@ After studying asynchronous IO in Python, we are able to compare these three con
 *(创建一个thread pool, 在其中放入async的task (coroutine))*
 
 * 参见https://github.com/Ziang-Lu/Multiprocessing-and-Multithreading/blob/master/Multi-processing%20and%20Multi-threading%20in%20Python/Multi-threading/multithreading_async.py  [由`concurrent.futures`模块控制]
-* 另一种实现方式: 参见`multithreading_async.py`  [由`concurrent.futures`模块和`asyncio`模块共同控制]
+* 第二种实现方式: 参见`multithreading_async.py`  [由`concurrent.futures`模块和`asyncio`模块共同控制]
+* 第三种实现方式: 参见`multithreading_gevent.py`  [由`gevent`模块控制]
 
 **适用情况: 如果有很多IO密集型任务, 可以把他们放入thread pool**
 
