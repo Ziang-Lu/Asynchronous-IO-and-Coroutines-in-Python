@@ -18,7 +18,6 @@ __author__ = 'Ziang Lu'
 
 import asyncio
 import random
-import threading
 from typing import Coroutine
 
 
@@ -27,10 +26,9 @@ async def hello() -> Coroutine:
     Dummy coroutine.
     :return: coroutine
     """
-    th_name = threading.current_thread().name
-    print(f'Hello, world! ({th_name})')
+    print('Hello, world!')
     await asyncio.sleep(1)
-    print(f'Hello again! ({th_name})')
+    print('Hello again!')
 
 
 asyncio.run(hello())
@@ -50,7 +48,7 @@ async def mygen(a: list) -> Coroutine:
     while len(a):
         i = random.randint(0, len(a) - 1)
         print(a.pop(i))
-        await asyncio.sleep(delay=1)
+        await asyncio.sleep(1)
 
 
 async def print_list_demo() -> None:
