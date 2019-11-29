@@ -227,7 +227,7 @@ After studying asynchronous IO in Python, we are able to compare these three con
   
   
   async def main():
-      # Create a thread pool with 10 thrads
+      # Create a thread pool with 10 threads
       with cf.ThreadPoolExecutor(max_workers=10) as pool:
           loop = asyncio.get_event_loop()
           # Submit tasks for execution
@@ -254,23 +254,11 @@ After studying asynchronous IO in Python, we are able to compare these three con
   import requests
   from gevent.threadpool import ThreadPool
   
-  
-  sites = [
-      'http://europe.wsj.com/',
-      'http://some-made-up-domain.com/',
-      'http://www.bbc.co.uk/',
-      'http://www.cnn.com/',
-      'http://www.foxnews.com/',
-  ]
-  
-  
-  def site_size(url: str):
-      response = requests.get(url)
-      return url, len(response.content)
-  
-  
+  # Create a thread pool with 10 threads
   pool = ThreadPool(maxsize=10)
+  # Schedule the tasks for execution
   results = [pool.spawn(site_size, url) for url in sites]
+  # Wait until all the scheduled tasks have been finished
   for result in results:  # AsyncResult
       res = result.result()
       if not isinstance(res, Exception):
