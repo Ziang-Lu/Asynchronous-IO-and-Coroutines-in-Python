@@ -37,7 +37,7 @@ This repo talks about asynchronous IO and its solution in Python, which is calle
 
 <br>
 
-# Coroutine
+# Coroutine in `Python`
 
 协程由同一个thread执行
 
@@ -86,7 +86,7 @@ def B():
   
 * `async_and_await.py`
 
-  本质上是一个语法糖, 用`async def / await`来代替之前的`@asyncio.coroutine / yield from`
+  本质上是一个syntax sugar, 用`async def / await`来代替之前的`@asyncio.coroutine / yield from`
 
 * 注意, `asyncio`中也提供了各种`Queue`的实现来帮助在coroutine之间通信, 参见:
 
@@ -185,6 +185,16 @@ Coroutines can be used to write various components that process event streams.
 *One interesting thing about coroutines is that you can push the initial data source as low-level as you want to make it without rewriting all of the processing stages.*
 
 * `coexpat_bus.py`
+
+<br>
+
+***
+
+**Related note: Non-blocking model & asynchronous I/O in `Node.js`**
+
+Check out https://github.com/Ziang-Lu/JavaScript-Learning-Notes#non-blocking-io-model--asynchronous-io-in-nodejs
+
+***
 
 <br>
 

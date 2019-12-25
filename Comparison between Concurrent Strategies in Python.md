@@ -1,6 +1,6 @@
-# Comparison between Concurrent Strategies
+# Comparison between Concurrent Strategies in Python
 
-After studying asynchronous IO in Python, we are able to compare these three concurrent strategies:
+After studying asynchronous IO in `Python`, we are able to compare these three concurrent strategies:
 
 |                                         | Multi-processing                                             | Multi-threading                                              | Asynchronous IO                                              |
 | --------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
