@@ -87,6 +87,8 @@ def B():
 * `async_and_await.py`
 
   本质上是一个syntax sugar, 用`async def / await`来代替之前的`@asyncio.coroutine / yield from`
+  
+  即: 使用`await <coroutine>`来**asynchronously**等待一个coroutine执行完毕, 而在使用了`await`语句的函数中, 函数的定义必须加上`async`, 即`async def ...`, 而这样一来这个函数本身也返回一个coroutine
 
 * 注意, `asyncio`中也提供了各种`Queue`的实现来帮助在coroutine之间通信, 参见:
 
