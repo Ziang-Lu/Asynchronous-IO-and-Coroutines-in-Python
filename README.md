@@ -200,7 +200,7 @@ Single-threaded + Event-driven model (including an event loop) => Natively non-b
 
 -> 只执行I/O请求, 而不等待I/O结果 => 大部分功能靠callback function实现
 
-Check out https://github.com/Ziang-Lu/JavaScript-Learning-Notes#non-blocking-io-model--asynchronous-io-in-nodejs
+Check out https://github.com/Ziang-Lu/JavaScript-Learning-Notes/blob/master/node-crash-course/Node.md#non-blocking-io-model--asynchronous-io-in-nodejs
 
 ***
 
